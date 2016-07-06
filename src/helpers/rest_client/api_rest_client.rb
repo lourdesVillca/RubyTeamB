@@ -1,6 +1,7 @@
-require 'rest-client'
-require 'uri'
 require 'json/ext'
+#Add the library for HTTP
+require 'net/http'
+require 'openssl'
 
 require_relative '../config/configuration'
 require_relative '../data_helper'
@@ -18,70 +19,45 @@ class ApiRestClient
 
     nil
   end
+  #
+  # This method set up a connection 
+  #
+  def get_connection
+      uri = URI.parse(@base_url)
+      http_connection = nil
+      http_connection = Net::HTTP.new(uri.host, uri.port)
+      http_connection.use_ssl = true
+      http_connection.verify_mode = OpenSSL::SSL::VERIFY_NONE      
+      http_connection.read_timeout = @time_out
+      http_connection
+  end
 
-  # Do one of the above.
-  def client_method(rest_method, url_elements, query_elements = [], parameters = nil)
-    url = File.join(@base_url, *url_elements)
-    url = URI.escape(url)
-    query_elements.each_with_index do |s, i|
-      char = (i == 0) ? '?' : '&'
-      url = '%s%s%s' % [url, char, s]
+  def get_request(method, url)
+    request = nil   
+    url =  @base_url + url  
+
+    uri = URI.parse(url)
+   
+    case method
+      when "POST"
+        request = Net::HTTP::Post.new(uri)
+      when "PUT"
+        request = Net::HTTP::Put.new(uri)
+      when "DELETE"
+        request = Net::HTTP::Delete.new(uri)
+      when "GET"
+        request = Net::HTTP::Get.new(uri)
     end
 
-    args = Hash.new
-
-    args.store(:method, rest_method)
-    args.store(:url, url)
-    args.store(:timeout, @time_out)
-    headers = {
-        'content-type' => 'application/json',
-        'X-TrackerToken' => @token
-    }
-    if parameters.nil?
-      parameters_json = nil
-    else
-      parameters_json = parameters.to_json
-    end
-    args.store(:user, @account_name)
-    args.store(:password, @password)
-    args.store(:payload, parameters_json)
-    args.store(:headers, headers)
-
-    # noinspection RubyResolve
-    args.store(:verify_ssl, OpenSSL::SSL::VERIFY_NONE)
-
-    RestClient.proxy = "http://172.20.240.5:8080"
-    response = RestClient::Request.execute(args)
-    # Don't parse as Json if empty.
-    return response if response == ''
-    begin
-      parser = JSON::Ext::Parser.new(response)
-      json = parser.parse
-      json = DataHelper.rehash_to_symbol_keys(json)
-      return [response.code, json]
-    rescue
-      # Isn't Json.
-      return [response.code, response]
-    end
+    request.basic_auth(@account_name, @password)
+    request.add_field("X-TrackerToken", @token)  
+    request.add_field("content-type", 'application/json')
+    request.add_field("'accept'", 'application/json')
+    request
   end
 
-  # Get.
-  def get(url_elements, query_elements = [])
-    client_method(__method__, url_elements, query_elements)
+  def execute_request(http_connection, http_request)
+    http_connection.request(http_request)
   end
 
-  # Post.
-  def post(url_elements, query_elements = [], parameters = nil)
-    client_method(__method__, url_elements, query_elements, parameters)
-  end
-
-  # Put.
-  def put(url_elements, query_elements = [], parameters = nil)
-    client_method(__method__, url_elements, query_elements, parameters)
-  end
-
-  # Delete.
-  def delete(url_elements, query_elements = [], parameters = nil)
-    client_method(__method__, url_elements, query_elements, parameters)
-  end
 end
