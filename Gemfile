@@ -1,7 +1,7 @@
-source 'http://rubygems.org'
+source 'https://rubygems.org'
 
 # JSON generation and parsing.
-gem 'json'
+#gem 'json'
 
 # Cucumber gem
 gem 'cucumber'
