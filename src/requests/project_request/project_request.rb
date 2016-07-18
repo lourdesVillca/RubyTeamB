@@ -12,6 +12,7 @@ class ProjectRequest
     var = DataHelper.rehash_to_symbol_keys(obj_project)
     obj_project = Project.new(var)
     obj_project
+
   end
 
   def self.create_individual_project(client, method, json)#POST
@@ -23,6 +24,7 @@ class ProjectRequest
       var = DataHelper.rehash_to_symbol_keys(obj_project)
       obj_project = Project.new(var)
       return http_response, obj_project
+
   end
 
   def self.delete_project(client, method, id_project)#DELETE
