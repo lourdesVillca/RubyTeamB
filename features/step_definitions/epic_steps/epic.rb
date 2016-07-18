@@ -3,6 +3,13 @@ require_relative '../../../src/helpers/data_helper'
 
 When(/^I send a epic (GET) request for a project$/) do |method|
   @http_response = EpicRequest.get_epics(@client, method, $project.id)
+  array_epic_json = JSON.parse(@http_response.body)
+  @array_epic = []
+  array_epic_json.each do | epic |
+    var = DataHelper.rehash_to_symbol_keys(epic)
+    obj_epic = Epic.new(var)
+    @array_epic.push(obj_epic)
+  end
 
 end
 When(/^I send an epic (POST) with the json2$/) do |method, json_text|
@@ -51,6 +58,18 @@ And(/^I expect the project_id is the same that I have sent$/) do
   result = false
   @json_value = JSON.parse(@json_value)
   expect(@json_response["project_id"] == $project.id).to be true
+
+end
+And(/^I expect the all data type returned from epic request are correct$/) do
+  @json_value = JSON.parse(@json_value)
+  p "Epic #{@array_epic}"
+  @array_string_name = @array_epic.map{|epic| epic.name }
+  p @array_string_name
+  @array_integer_id = @array_epic.map{|epic| epic.id }
+  @array_string_kind = @array_epic.map{|epic| epic.kind }
+  expect(DataHelper.is_string_array?(@array_string_name) &&
+             DataHelper.is_integer_array?(@array_integer_id)&&
+             DataHelper.is_string_array?(@array_string_kind)).to be true
 
 end
 

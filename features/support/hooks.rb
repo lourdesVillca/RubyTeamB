@@ -5,7 +5,7 @@ Before('@create_project') do
 
   client = ApiRestClient.new
   #create the project
-  json_param = {:name => "Project-lu34"}
+  json_param = {:name => "Project-lu42"}
   $project = ProjectRequest.create_project(client,"POST",json_param)
 
   $array_response_epic_json = Array.new

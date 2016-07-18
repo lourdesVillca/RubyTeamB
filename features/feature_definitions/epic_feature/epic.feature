@@ -96,3 +96,12 @@ Feature: Final Project for API Testing class - EPIC
     Examples:
       | Name |
       | Epic-06|
+
+  @acceptance_get
+  Scenario: Verify the all data type that return the get request are correct
+    Given I have set a connection to pivotal_tracker API service
+    When I send a epic GET request for a project
+    Then I expect Status code 200
+      And I expect the all data type returned from epic request are correct
+
+
