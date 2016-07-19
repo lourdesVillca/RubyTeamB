@@ -13,7 +13,7 @@ Feature: Final Project for API Testing class - PROJECT
     When I send a project POST with the json2
     """
       {
-        "name":"angy1"
+        "name":"angy11"
       }
     """
     Then I expect Status code 200
@@ -24,7 +24,7 @@ Feature: Final Project for API Testing class - PROJECT
     When I send a project PUT request to ProjectRequest with json
     """
       {
-        "name":"angy11"
+        "name":"angy111"
       }
     """
     Then I expect Status code 200
@@ -48,9 +48,25 @@ Feature: Final Project for API Testing class - PROJECT
     And I expect the all inserted data are the same that the data sent
     Examples:
       | Name |
-      | ProjectAngy-0001 |
-      | ProjectAngy-0002 |
-      | ProjectAngy-0003 |
+      | ProjectAngy-00001 |
+      | ProjectAngy-00002 |
+      | ProjectAngy-00003 |
+
+
+  @acceptance
+  Scenario: Verify all data is correct
+    Given I have set a connection to pivotal_tracker API service
+    When I send a project POST with the json
+    """
+      {
+
+
+         "name": "Angy Executioner",
+         "week_start_day": "Monday"
+      }
+    """
+    Then I expect Status code 200
+    And I expect all data correct
 
   @acceptance
   Scenario Outline: Verify format date
@@ -65,7 +81,7 @@ Feature: Final Project for API Testing class - PROJECT
     And I expect the date format is correct
     Examples:
       | Name |
-      | ProjectAngy-0004 |
+      | ProjectAngy-00004 |
 
   @acceptance
   Scenario Outline: Verify Kind Project Registered
@@ -80,7 +96,7 @@ Feature: Final Project for API Testing class - PROJECT
     And I expect the kind of project is equal to project
     Examples:
       | Name |
-      | ProjectAngy-0005 |
+      | ProjectAngy-00005 |
 
   @acceptance
   Scenario Outline: Verify that the project_id is the same that I have sent
@@ -95,5 +111,5 @@ Feature: Final Project for API Testing class - PROJECT
     And I expect the project_id is the same
     Examples:
       | Name |
-      | ProjectAngy-0006|
+      | ProjectAngy-00006|
 
