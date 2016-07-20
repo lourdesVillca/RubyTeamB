@@ -8,7 +8,6 @@ class ProjectRequest
     http_request.body = json
 
     http_response = client.execute_request(client.get_connection, http_request)
-    p http_response.code
     obj_project = JSON.parse(http_response.body)
     var = DataHelper.rehash_to_symbol_keys(obj_project)
     obj_project = Project.new(var)
@@ -22,7 +21,6 @@ class ProjectRequest
     http_request.body = json
 
     http_response = client.execute_request(client.get_connection, http_request)
-    p http_response.code
     obj_error = JSON.parse(http_response.body)
     var = DataHelper.rehash_to_symbol_keys(obj_error)
     obj_error = Error.new(var)
