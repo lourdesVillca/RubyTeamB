@@ -7,8 +7,7 @@ Before('@create_project') do
   json_param = {:name => "General_project01"}
   _,$project = ProjectRequest.create_project(client,"POST",json_param.to_json)
 
-  $array_response_epic_json = Array.new
-  $array_send_json = Array.new
+
 end
 
 After('@delete_project') do
