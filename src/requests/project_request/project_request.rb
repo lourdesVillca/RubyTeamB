@@ -1,17 +1,32 @@
 require_relative '../../../src/data/project'
+require_relative '../../../src/data/error'
 class ProjectRequest
 
   def self.create_project(client, method, json)#POST
-    end_point = '/projects/'
+    end_point = '/projects'
     http_request = client.get_request(method, end_point)
     http_request.body = json
 
     http_response = client.execute_request(client.get_connection, http_request)
-
+    p http_response.code
     obj_project = JSON.parse(http_response.body)
     var = DataHelper.rehash_to_symbol_keys(obj_project)
     obj_project = Project.new(var)
     return http_response,obj_project
+
+  end
+
+  def self.create_project_negative(client, method, json)#POST
+    end_point = '/projects'
+    http_request = client.get_request(method, end_point)
+    http_request.body = json
+
+    http_response = client.execute_request(client.get_connection, http_request)
+    p http_response.code
+    obj_error = JSON.parse(http_response.body)
+    var = DataHelper.rehash_to_symbol_keys(obj_error)
+    obj_error = Error.new(var)
+    return http_response,obj_error
 
   end
 
