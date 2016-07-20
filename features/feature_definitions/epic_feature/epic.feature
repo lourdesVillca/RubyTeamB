@@ -105,3 +105,24 @@ Feature: Final Project for API Testing class - EPIC
       And I expect the all data type returned from epic request are correct
 
 
+  @negative
+  Scenario: Verify that an epic cannot be obtained for a non-existent project
+    Given I have set a connection to pivotal_tracker API service
+    When I send a epic GET request for a project 0
+    Then I expect Status code 404
+      And I expect an error message to epic
+
+  @negative
+  Scenario Outline: Verify that is not possible to add an EPIC with empty data
+    Given I have set a connection to pivotal_tracker API service
+    When I send a epic POST request with the json
+    """
+      {
+        "name":" "
+      }
+    """
+    Then I expect Status code 404
+      And I expect an error message to epic
+    Examples:
+    | Name |
+    | Epic-06|

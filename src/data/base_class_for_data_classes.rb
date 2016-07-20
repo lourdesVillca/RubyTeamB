@@ -1,5 +1,12 @@
 class BaseClassForDataClasses
 
+  KINDS = {:project => 'project',
+           :epic => 'epic',
+           :error => 'error',
+           :comment => 'comments',
+           :story => 'story',
+           :workspace => 'workspace'
+  }
   def initialize(values)
     case
       when values.respond_to?(:each_pair)
