@@ -31,6 +31,8 @@ class Project < BaseClassForDataClasses
                 :version,
                 :week_start_day
 
+  ERROR = {:error_message => "One or more request parameters was missing or invalid."}
+
   def initialize(values = {})
     super(values)
   end
