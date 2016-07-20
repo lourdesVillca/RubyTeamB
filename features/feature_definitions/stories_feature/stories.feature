@@ -75,7 +75,7 @@
         | Name |
         | testC |
 
-    @acceptance @delete_project
+    @acceptance
     Scenario Outline: Verify that the project_id is the same that I have sent
       Given I have set a connection to pivotal_tracker API service
       When I send storiesAcceptance POST with json
@@ -89,3 +89,14 @@
       Examples:
         | Name |
         | testD|
+    @negative @delete_project
+    Scenario: Verify that the project_id is the same that I have sent
+      Given I have set a connection to pivotal_tracker API service
+      When I send storiesNegative POST with json
+    """
+      {
+        "name":""
+      }
+    """
+      Then I expect Status code 400
+#      And I expect the project_id is the same that I have send
