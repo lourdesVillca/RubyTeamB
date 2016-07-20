@@ -14,10 +14,15 @@ class StoriesRequest
     http_request = client.get_request(method, end_point)
     http_request.body = json_text
     http_response = client.execute_request(client.get_connection, http_request)
-    obj_stories = JSON.parse(http_response.body)
-    var = DataHelper.rehash_to_symbol_keys(obj_stories)
-    obj_stories = Stories.new(var)
-    return http_response, obj_stories
+    obj_response = JSON.parse(http_response.body)
+    var = DataHelper.rehash_to_symbol_keys(obj_response)
+    if(http_response.code.to_s!="400")
+      obj_response = Stories.new(var)
+    else
+      obj_response = Error.new(var)
+    end
+
+    return http_response, obj_response
   end
 #Story
   def self.update_story(client, method, id_project, json_text, id_story) #PUT
