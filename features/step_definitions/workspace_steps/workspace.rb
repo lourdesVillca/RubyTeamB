@@ -31,7 +31,7 @@ When(/^I send a workspace (POST) request with the json$/) do |method, json_text|
     WorkspaceRequest.delete_workspace(@client,"DELETE",$workspace.id)
 end
 
-And(/^I expect the all inserted data are the same$/) do
+And(/^I expect the all inserted data workspace are the same$/) do
     res = true
     @json_value = JSON.parse(@json_value)
     @json_value.each do |key, value|
