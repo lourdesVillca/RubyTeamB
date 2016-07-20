@@ -5,6 +5,7 @@ class Error < BaseClassForDataClasses
                 :kind,
                 :error,
                 :general_problem,
+                :requirement,
                 :validation_errors
 
       # ERROR = {:error_message => "One or more request parameters was missing or invalid."}

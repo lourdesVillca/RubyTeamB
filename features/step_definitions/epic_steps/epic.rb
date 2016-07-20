@@ -12,7 +12,7 @@ When(/^I send a epic (GET) request for a project$/) do |method|
   end
 
 end
-When(/^I send an epic (POST) with the json2$/) do |method, json_text|
+When(/^I send an epic (POST) with the json$/) do |method, json_text|
   @http_response, $epic = EpicRequest.create_epic(@client, method, $project.id, json_text)
 
 end
@@ -27,7 +27,7 @@ When(/^I send an epic (DELETE) request to EpicRequest$/) do |method|
 
 end
 
-When(/^I send an epic (POST) with the json$/) do |method, json_text|
+When(/^I send an epic (POST) request with the json$/) do |method, json_text|
   @json_value = json_text
   @http_response, @epic = EpicRequest.create_epic(@client, method, $project.id, json_text)
   @json_response = JSON.parse(@http_response.body)
@@ -49,13 +49,11 @@ And(/^I expect the all date format are correct$/) do
 end
 
 And(/^I expect the kind of epic is equal to (.*)$/) do |kind_epic|
-  result = false
   @json_value = JSON.parse(@json_value)
   expect(@json_response["kind"] == kind_epic).to be true
 
 end
 And(/^I expect the project_id is the same that I have sent$/) do
-  result = false
   @json_value = JSON.parse(@json_value)
   expect(@json_response["project_id"] == $project.id).to be true
 
@@ -76,10 +74,30 @@ When(/^I send a epic (GET) request for a project (.*?)$/) do |method, id_no_exis
 end
 
 And(/^I expect an error message to epic$/) do
-  p @http_response.code
   @json_response = JSON.parse(@http_response.body)
   expect(@json_response["error"]).to eql(Epic::ERROR[:error_message])
 end
+
+When(/^I send an epic (POST) request with invalid data with the json$/) do |method, json_text|
+  @json_value = json_text
+  @http_response, @error = EpicRequest.create_epic(@client, method, $project.id, json_text)
+  @json_response = JSON.parse(@http_response.body)
+end
+
+And(/^I expect an error message to invalid data epic$/) do
+  @json_response = JSON.parse(@http_response.body)
+  expect(@json_response["code"]).to eql(@error.code)
+  #expect(@json_response["'name' parameter must be 5000 characters or less"]).to eql(Epic::ERROR[:requirement])
+end
+
+
+And(/^I expect an error message to empty data epic$/) do
+  @json_response = JSON.parse(@http_response.body)
+  expect(@json_response["code"]).to eql(@error.code)
+end
+
+
+
 
 
 
