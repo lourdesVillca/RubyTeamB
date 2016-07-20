@@ -40,24 +40,9 @@
       }
     """
       Then I expect Status code 200
-      And I expect the all inserted data are the same
+      And I expect the all inserted data workspace are the same
       Examples:
         | Name |
         | workspace-E1 |
         | workspace-E2 |
         | workspace-E3 |
-
-    @acceptance
-    Scenario Outline: Verify Kind of Workspace Registered
-      Given I have set a connection to pivotal_tracker API service
-      When I send a workspace POST with the json
-      """
-      {
-        "name":"<Name>"
-      }
-      """
-      Then I expect Status code 200
-      And I expect the kind of workspace is equal to workspace
-      Examples:
-        | Name |
-        | workspace-KindE1 |
