@@ -59,8 +59,6 @@ Feature: Final Project for API Testing class - PROJECT
     When I send a project POST with the json
     """
       {
-
-
          "name": "Angy Executioner",
          "week_start_day": "Monday"
       }
