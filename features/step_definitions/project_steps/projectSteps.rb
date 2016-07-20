@@ -53,7 +53,6 @@ And(/^I expect all data correct$/)do
   result = false
   @json_value = JSON.parse(@json_value)
   result = DataHelper.contain_same_value?(@json_value, @json_response)
-  p @json_response
   #expect(result).to be true
 end
 
@@ -88,12 +87,11 @@ And(/^I expect the all data type returned from project request are correct$/) do
 
 end
 When(/^I send a project (GET) request for a project (.*?)$/) do |method, id_no_exist|
-  @http_response, $projects = EpicRequest.get_project_by_id(@client, method, id_no_exist)
+  @http_response, $projects = ProjectRequest.get_project_by_id(@client, method, id_no_exist)
 
 end
 
 And(/^I expect an error message from project$/) do
-  p @http_response.code
   @json_response = JSON.parse(@http_response.body)
   expect(@json_response["error"]).to eql(Project::ERROR[:error_message])
 end
