@@ -33,14 +33,14 @@ When(/^I send a project (POST) with the json$/) do |method, json_text|
   @json_response = JSON.parse(@http_response.body)
   ProjectRequest.delete_project(@client,"DELETE",$projects.id)
 end
+
 When(/^I send a project negative (POST) with the json$/) do |method, json_text|
   @json_value = json_text
-
-  @http_response, $Projecterror = ProjectRequest.create_project_negative(@client, method, json_text)
-
+  @http_response, @ProjectError = ProjectRequest.create_project(@client, method, json_text)
   @json_response = JSON.parse(@http_response.body)
   # ProjectRequest.delete_project(@client,"DELETE",$projects.id)
 end
+
 And(/^I expect the all inserted data are the same$/) do
   result = false
   @json_value = JSON.parse(@json_value)
@@ -87,13 +87,13 @@ And(/^I expect the all data type returned from project request are correct$/) do
 
 end
 When(/^I send a project (GET) request for a project (.*?)$/) do |method, id_no_exist|
-  @http_response, $projects = ProjectRequest.get_project_by_id(@client, method, id_no_exist)
+  @http_response,@ProjectError = ProjectRequest.get_project_by_id(@client, method, id_no_exist)
 
 end
 
 And(/^I expect an error message from project$/) do
   @json_response = JSON.parse(@http_response.body)
-  expect(@json_response["error"]).to eql(Project::ERROR[:error_message])
+  expect(@json_response["error"]).to eql(@ProjectError.error.to_s)
 end
 
 

@@ -31,7 +31,7 @@ class Project < BaseClassForDataClasses
                 :version,
                 :week_start_day
 
-  ERROR = {:error_message => "One or more request parameters was missing or invalid."}
+  ERROR = {:unfound_resource => "The object you tried to access could not be found.  It may have been removed by another user, you may be using the ID of another object type, or you may be trying to access a sub-resource at the wrong point in a tree."}
 
   def initialize(values = {})
     super(values)
