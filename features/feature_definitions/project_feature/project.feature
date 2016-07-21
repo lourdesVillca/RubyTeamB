@@ -117,15 +117,15 @@ Feature: Final Project for API Testing class - PROJECT
     Then I expect Status code 200
     And I expect the all data type returned from project request are correct
 
-#  @negative
-#  Scenario: Verify that a project cannot be obtained for a non-existent project
-#    Given I have set a connection to pivotal_tracker API service
-#    When I send a project GET request for a project 0
-#    Then I expect Status code 404
-#    And I expect an error message from project
-
-
   @negative @a
+  Scenario: Verify that a project cannot be obtained for a non-existent project
+    Given I have set a connection to pivotal_tracker API service
+    When I send a project GET request for a project 0
+    Then I expect Status code 404
+    And I expect an error message from project
+
+
+  @negative
   Scenario: Verify that is not possible to add a Project with empty data
     Given I have set a connection to pivotal_tracker API service
     When I send a project negative POST with the json
