@@ -34,20 +34,19 @@ And(/^I expect the all inserted data Comments are the same that the data sent$/)
 end
 
 When(/^I send a Comments (GET) request for a project (.*?)$/) do |method, id_no_exist_proyect |
-  @http_response, $comments = CommentsRequest.get_comments(@client, method, id_no_exist_proyect, $story.id)
+  @http_response = CommentsRequest.get_comments(@client, method, id_no_exist_proyect, $story.id)
 end
 
 When(/^I send a Comments (GET) request for a stories (.*?)$/) do |method, id_no_exist_stories |
-  @http_response, $comments = CommentsRequest.get_comments(@client, method, $project.id, id_no_exist_stories)
+  @http_response = CommentsRequest.get_comments(@client, method, $project.id, id_no_exist_stories)
 end
 
 When(/^I send a Comments (GET) request for a comments (.*?)$/) do |method, id_no_exist_comments |
-  @http_response, $comments = CommentsRequest.get_comments_error(@client, method, $project.id, $story.id, id_no_exist_comments)
+  @http_response = CommentsRequest.get_comments_error(@client, method, $project.id, $story.id, id_no_exist_comments)
 end
 
 
 And(/^I expect an error message to Comments$/) do
-  p @http_response.code
   @json_response = JSON.parse(@http_response.body)
   expect(@json_response["error"]).to eql(Comments::ERROR[:error_message])
 end

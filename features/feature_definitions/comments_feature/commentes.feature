@@ -33,11 +33,7 @@ Feature: Final Project for API Testing class - COMMENTS
     When I send an comments DELETE request to CommentsRequest
     Then I expect Status code 204
 
-  @smoke
-  Scenario: Verify method DELETE for Comments API
-    Given I have set a connection to pivotal_tracker API service
-    When I send an comments DELETE request to CommentsRequest
-    Then I expect Status code 204
+
 
   @acceptance
   Scenario Outline: Verify the created Comments has been created with the same parameters
@@ -68,14 +64,18 @@ Feature: Final Project for API Testing class - COMMENTS
     Then I expect Status code 404
     And I expect an error message to Comments
 
-  @negative @delete_project
+  @negative
   Scenario: Verify that an Comments cannot be obtained for a non-existent comments
     Given I have set a connection to pivotal_tracker API service
     When I send a Comments GET request for a comments 0
     Then I expect Status code 404
     And I expect an error message to Comments
 
-
+  @smoke @delete_project
+  Scenario: Verify method DELETE for Comments API
+    Given I have set a connection to pivotal_tracker API service
+    When I send an comments DELETE request to CommentsRequest
+    Then I expect Status code 400
 
 
 
