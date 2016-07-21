@@ -60,7 +60,7 @@ Feature: Final Project for API Testing class - PROJECT
     Then I expect Status code 200
     And I expect the all inserted data are the same that the data sent
     Examples:
-      | Name |
+      | Name             |
       | ProjectAngy-0001 |
       | ProjectAngy-0002 |
       | ProjectAngy-0003 |
@@ -77,7 +77,7 @@ Feature: Final Project for API Testing class - PROJECT
     Then I expect Status code 200
     And I expect the date format is correct
     Examples:
-      | Name |
+      | Name             |
       | ProjectAngy-0004 |
 
   @acceptance
@@ -92,7 +92,7 @@ Feature: Final Project for API Testing class - PROJECT
     Then I expect Status code 200
     And I expect the kind of project is equal to project
     Examples:
-      | Name |
+      | Name             |
       | ProjectAngy-0005 |
 
   @acceptance
@@ -107,8 +107,8 @@ Feature: Final Project for API Testing class - PROJECT
     Then I expect Status code 200
     And I expect the project_id is the same
     Examples:
-      | Name |
-      | ProjectAngy-0006|
+      | Name             |
+      | ProjectAngy-0006 |
 
   @acceptance
   Scenario: Verify the all data type that return the get request are correct

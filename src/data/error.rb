@@ -9,8 +9,6 @@ class Error < BaseClassForDataClasses
                 :validation_errors,
                 :possible_fix
 
-      # ERROR = {:error_message => "One or more request parameters was missing or invalid."}
-
   def initialize(values = {})
     super(values)
   end
