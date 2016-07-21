@@ -29,3 +29,17 @@ After('@delete_workspace') do
   client = ApiRestClient.new
   WorkspaceRequest.delete_workspace(client,"DELETE",$workspace.id)
 end
+
+Before('@create_story') do
+  client = ApiRestClient.new
+  #create the project
+  json_param = {:name => "General_bruno06"}
+  _, $story= StoriesRequest.create_stories(client,"POST",$project.id,json_param.to_json)
+
+end
+
+After('@delete_story') do
+  #delete  project
+  client = ApiRestClient.new
+  ProjectRequest.delete_project(client,"DELETE",$project.id)
+end
