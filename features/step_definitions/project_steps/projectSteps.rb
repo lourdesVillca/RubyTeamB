@@ -17,11 +17,11 @@ When(/^I send a project (POST) with the json2$/) do |method, json_text|
 end
 
 When(/^I send a project (PUT) request to ProjectRequest with json$/) do |method, json_text|
-  @http_response = ProjectRequest.update_project(@client, method, $projects.id, json_text)
+  @http_response,$projects = ProjectRequest.update_project(@client, method, $projects.id, json_text)
 end
 
 When(/^I send a project (DELETE) request to ProjectRequest$/) do |method|
-  @http_response = ProjectRequest.delete_project(@client, method, $projects.id)
+  @http_response,_= ProjectRequest.delete_project(@client, method, $projects.id)
 
 end
 
@@ -38,9 +38,22 @@ When(/^I send a project negative (POST) with the json$/) do |method, json_text|
   @json_value = json_text
   @http_response, @ProjectError = ProjectRequest.create_project(@client, method, json_text)
   @json_response = JSON.parse(@http_response.body)
-  # ProjectRequest.delete_project(@client,"DELETE",$projects.id)
 end
 
+When(/^I send a project negative (PUT) with the json$/) do |method, json_text|
+  @json_value = json_text
+  @http_response, @ProjectError = ProjectRequest.update_project(@client, method,$project.id, json_text)
+  @json_response = JSON.parse(@http_response.body)
+end
+When(/^I send a project negative (PUT) with (.*?) project id and with the json$/) do |method, invalid_id, json_text|
+  @json_value = json_text
+  @http_response, @ProjectError = ProjectRequest.update_project(@client, method,invalid_id, json_text)
+  @json_response = JSON.parse(@http_response.body)
+end
+When(/^I send a project (DELETE) request with the wrong project id (.*?)$/) do |method,wrong_id|
+  @http_response,@ProjectError = ProjectRequest.delete_project(@client, method, wrong_id)
+
+end
 And(/^I expect the all inserted data are the same$/) do
   result = false
   @json_value = JSON.parse(@json_value)
@@ -95,5 +108,19 @@ And(/^I expect an error message from project$/) do
   @json_response = JSON.parse(@http_response.body)
   expect(@json_response["error"]).to eql(@ProjectError.error.to_s)
 end
-
+And(/^I expect the project error message (.*)$/) do |message|
+  expect(@ProjectError.error.to_s).to eql(message.to_s)
+end
+And(/^I expect the project error code (.*)$/) do |message|
+  expect(@ProjectError.code.to_s).to eql(message.to_s)
+end
+And(/^I expect the project error kind (.*)$/) do |message|
+  expect(@ProjectError.kind.to_s).to eql(message.to_s)
+end
+And(/^I expect the project error general problem (.*)$/) do |message|
+  expect(@ProjectError.general_problem.to_s).to eql(message.to_s)
+end
+And(/^I expect the project error possible fix (.*)$/) do |message|
+  expect(@ProjectError.possible_fix.to_s).to eql(message.to_s)
+end
 
