@@ -33,8 +33,14 @@ Feature: Workflow to create a project, add story and epics and add comments to a
       }
       """
       And I PUT the created project to workspace
-      
     Then I expect Status code 200
+
     Examples:
      | text |name_epic|story|project|workspace|
-     | Comments-01 | new_epic |storyTest|Project_Workflow5|workspace_workflow5|
+     | Comments-01 | new_epic |storyTest|Project_Workflow9|workspace_workflow9|
+
+    Scenario: Delete project and workspace
+      Given I have set a connection to pivotal_tracker API service
+      When I DELETE the created project
+        And I DELETE the created workspace
+      Then I expect Status code 204
